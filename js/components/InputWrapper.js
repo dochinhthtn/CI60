@@ -10,6 +10,9 @@ export default class InputWrapper extends HTMLElement {
     constructor() {
         super();
         this.appendChild($template.content.cloneNode(true));
+
+        this.$main = this.querySelector(".input-main");
+        this.$error = this.querySelector(".input-error");
     }
 
     static get observedAttributes() {
@@ -17,7 +20,13 @@ export default class InputWrapper extends HTMLElement {
     }
 
     attributeChangedCallback(attrName, oldValue, newValue) {
-
+        if(attrName == 'placeholder') {
+            this.$main.placeholder = newValue;
+        } else if(attrName == 'error') {
+            this.$error.innerHTML = newValue;
+        } else if(attrName == 'type') {
+            this.$main.type = newValue;
+        }
     }
 }
 

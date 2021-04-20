@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="./css/app.css">
+
 </head>
+
 <body>
     <div id="app">
-        <input-wrapper></input-wrapper>
+        <form class="register-form">
+            <h2 class="title">Create an account</h2>
+            <div class="sub-title">Đừng hỏi em ăn cơm chưa</div>
+            <input-wrapper class="name" placeholder="Your name" type="text" error=""></input-wrapper>
+            <input-wrapper class="email" placeholder="Your email" type="email" error=""></input-wrapper>
+            <input-wrapper class="password" placeholder="Your password" type="password" error=""></input-wrapper>
+            <input-wrapper class="password-confirmation" placeholder="Repeat password" type="password" error=""></input-wrapper>
+            <button class="register-btn">Register</button>
+        </form>
     </div>
 
     <script src="./js/app.js" type="module"></script>
 </body>
+
 </html>
