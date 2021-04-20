@@ -28,6 +28,21 @@ export default class InputWrapper extends HTMLElement {
             this.$main.type = newValue;
         }
     }
+
+    validate(condition, error) {
+        let value = this.$main.value;
+        if(condition(value)) {
+            this.setAttribute('error', '');
+            return true;
+        } else {
+            this.setAttribute('error', error);
+            return false;
+        }
+    }
+
+    get value() {
+        return this.$main.value;
+    }
 }
 
 window.customElements.define('input-wrapper', InputWrapper);
