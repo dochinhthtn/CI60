@@ -1,5 +1,6 @@
 import InputWrapper from "./components/InputWrapper.js";
 import RegisterForm from "./components/RegisterForm.js";
+import LoginForm from "./components/LoginForm.js";
 
 // function hello(name) {
 //     return "Xin chào " + name;
