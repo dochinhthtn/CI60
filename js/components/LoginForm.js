@@ -37,6 +37,7 @@ export default class LoginForm extends HTMLElement {
 
             if (isPassed) {
                 console.log("ok het");
+                console.log("Login successfully");
             }
         }
     }
