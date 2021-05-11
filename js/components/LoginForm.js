@@ -1,3 +1,5 @@
+import { login } from "../models/user.js";
+
 const $template = document.createElement('template');
 $template.innerHTML = `
     <form class="login-form">
@@ -36,7 +38,7 @@ export default class LoginForm extends HTMLElement {
             };
 
             if (isPassed) {
-                console.log("Đăng nhập thành công");
+                login(data.email, data.password);
             }
         }
     }

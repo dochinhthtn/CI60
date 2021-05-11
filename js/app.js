@@ -1,22 +1,9 @@
 import InputWrapper from "./components/InputWrapper.js";
 import RegisterForm from "./components/RegisterForm.js";
 import LoginForm from "./components/LoginForm.js";
+import AppStat from "./components/AppStat.js";
+import UserActions from "./components/UserActions.js";
 
-// function hello(name) {
-//     return "Xin chào " + name;
-// }
-// callback
-// function saySomething(cb) {
-//     /* 
-//         cb = function(name) {
-//             return "Xin chào " + name;
-//         }
-//     */
-//     let name = "Trần Đức Bo";
-//     console.log(cb(name));
+import { authStateChanged } from "./models/user.js";
 
-// }
-
-// saySomething(hello());
-
-// saySomething("Xin chào " + undefined);
+authStateChanged();
