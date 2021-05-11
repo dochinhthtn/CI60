@@ -29,7 +29,7 @@ export function authStateChanged() {
     // đăng kí, đăng nhập, đăng xuất
     firebase.auth().onAuthStateChanged(function(user) {
         if(user != null) {
-            console.log(user);
+            // console.log(user);
         } else {
             console.log("User logged out");
         }
