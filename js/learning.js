@@ -29,3 +29,5 @@ async function getDocsByCondition() {
 }
 
 getDocsByCondition();
+
+// update, delete, onSnapshot

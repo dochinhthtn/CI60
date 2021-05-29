@@ -1,3 +1,5 @@
+import { updateCurrentUser } from "../models/user.js";
+
 const $template = document.createElement('template');
 $template.innerHTML = `
     <div class="user-actions">
@@ -20,6 +22,54 @@ export default class UserActions extends HTMLElement {
     constructor() {
         super();
         this.appendChild($template.content.cloneNode(true));
+
+        this.$statusFree = this.querySelector('.status-free');
+        this.$statusFlirting = this.querySelector('.status-flirting');
+        this.$statusChatting = this.querySelector('.status-chatting');
+
+        this.$flirtBtn = this.querySelector('.btn-flirt');
+        this.$biteBtn = this.querySelector('.btn-bite');
+        this.$stopFlirtingBtn = this.querySelector('.btn-stop-flirting');
+        this.$endChatBtn = this.querySelector('.btn-end-chat');
+
+    }
+
+    connectedCallback() {
+        this.$flirtBtn.onclick = () => {
+            updateCurrentUser({ status: 'flirting' });
+        }
+
+        this.$biteBtn.onclick = () => {
+            updateCurrentUser({ status: 'chatting', currentConversationId: 'id của conversation nào đó' });
+        }
+
+        this.$stopFlirtingBtn.onclick = () => {
+            updateCurrentUser({ status: 'free' });
+        }
+
+        this.$endChatBtn.onclick = () => {
+            updateCurrentUser({ status: 'free', currentConversationId: '' });
+        }
+    }
+
+    static get observedAttributes() {
+        return ['status'];
+    }
+
+    attributeChangedCallback(attrName, oldValue, newValue) {
+        if (attrName == 'status') {
+            this.$statusFree.style.display = 'none';
+            this.$statusChatting.style.display = 'none';
+            this.$statusFlirting.style.display = 'none';
+
+            if (newValue == 'free') {
+                this.$statusFree.style.display = 'block';
+            } else if (newValue == 'chatting') {
+                this.$statusChatting.style.display = 'block';
+            } else if (newValue == 'flirting') {
+                this.$statusFlirting.style.display = 'block';
+            }
+        }
     }
 }
 

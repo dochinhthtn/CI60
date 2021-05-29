@@ -1,3 +1,5 @@
+import { getDataFromDocs, getDataFromDoc } from "../utils.js";
+
 export async function register(name, email, password) {
     try {
         await firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -5,10 +7,17 @@ export async function register(name, email, password) {
             displayName: name
         });
 
-        console.log(firebase.auth().currentUser);
+        // console.log(firebase.auth().currentUser);
+
+        let currentUser = firebase.auth().currentUser;
+
+        await firebase.firestore().collection("users").doc(currentUser.uid).set({
+            status: 'free',
+            currentConversationId: ''
+        }); // tự sinh 1 id 
 
         alert("Create account successfully");
-    } catch(error) {
+    } catch (error) {
         alert(error.message);
     }
 
@@ -19,19 +28,46 @@ export async function login(email, password) {
     try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
         alert("Login successfully");
-    } catch(error) {
+    } catch (error) {
         alert(error.message)
     }
 }
 
 export function authStateChanged() {
-
     // đăng kí, đăng nhập, đăng xuất
-    firebase.auth().onAuthStateChanged(function(user) {
-        if(user != null) {
-            // console.log(user);
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user != null) {
+            document.getElementById('app').innerHTML = '<chat-screen></chat-screen>';
         } else {
-            console.log("User logged out");
+            document.getElementById('app').innerHTML = '<auth-screen></auth-screen>';
         }
+    });
+}
+
+export async function listenAllUsers(callback) {
+
+    // get
+    // let response = await firebase.firestore().collection("users").get();
+    // let usersData = getDataFromDocs(response.docs);
+    // callback(usersData);
+
+    // onSnapshot
+    firebase.firestore().collection("users").onSnapshot((response) => {
+        let usersData = getDataFromDocs(response.docs);
+        callback(usersData);
+    });
+}
+
+export async function updateCurrentUser(data) {
+    let currentUser = firebase.auth().currentUser;
+    await firebase.firestore().collection("users").doc(currentUser.uid).update(data);
+}
+
+export function listenCurrentUser(callback) {
+    let currentUser = firebase.auth().currentUser;
+    firebase.firestore().collection('users').doc(currentUser.uid).onSnapshot((response) => {
+        console.log(response);
+        let data = getDataFromDoc(response);
+        console.log(data);
     });
 }

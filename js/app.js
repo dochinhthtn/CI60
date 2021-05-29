@@ -4,6 +4,9 @@ import LoginForm from "./components/LoginForm.js";
 import AppStat from "./components/AppStat.js";
 import UserActions from "./components/UserActions.js";
 
+import AuthScreen from "./screens/AuthScreen.js";
+import ChatScreen from "./screens/ChatScreen.js";
+
 import { authStateChanged } from "./models/user.js";
 
 authStateChanged();
