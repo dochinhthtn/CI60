@@ -68,6 +68,6 @@ export function listenCurrentUser(callback) {
     firebase.firestore().collection('users').doc(currentUser.uid).onSnapshot((response) => {
         console.log(response);
         let data = getDataFromDoc(response);
-        console.log(data);
+        callback(data);
     });
 }

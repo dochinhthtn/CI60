@@ -9,7 +9,8 @@ $template.innerHTML = `
         </div>
 
         <div class="chat-container">
-            <!-- Hiển thị tin nhắn -->
+            <message-list></message-list>
+            
             <!-- Form gửi tin nhắn -->
         </div>
     </div>
@@ -19,10 +20,14 @@ export default class ChatScreen extends HTMLElement {
     constructor() {
         super();
         this.appendChild($template.content.cloneNode(true));
+
+        this.$userActions = this.querySelector('user-actions');
     }
 
     connectedCallback() {
-        listenCurrentUser();
+        listenCurrentUser((data) => {
+            this.$userActions.setAttribute('status', data.status);
+        });
     }
 }
 
