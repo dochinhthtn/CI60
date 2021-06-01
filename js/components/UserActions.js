@@ -1,4 +1,5 @@
-import { updateCurrentUser } from "../models/user.js";
+import { createConversation } from "../models/conversation.js";
+import { getFlirtingUsers, updateCurrentUser, updateUser } from "../models/user.js";
 
 const $template = document.createElement('template');
 $template.innerHTML = `
@@ -31,7 +32,6 @@ export default class UserActions extends HTMLElement {
         this.$biteBtn = this.querySelector('.btn-bite');
         this.$stopFlirtingBtn = this.querySelector('.btn-stop-flirting');
         this.$endChatBtn = this.querySelector('.btn-end-chat');
-
     }
 
     connectedCallback() {
@@ -39,8 +39,26 @@ export default class UserActions extends HTMLElement {
             updateCurrentUser({ status: 'flirting' });
         }
 
-        this.$biteBtn.onclick = () => {
-            updateCurrentUser({ status: 'chatting', currentConversationId: 'id của conversation nào đó' });
+        this.$biteBtn.onclick = async () => {
+            // lấy ra những người dùng đang flirting
+            let flirtingUsers = await getFlirtingUsers();
+            // kiểm tra số lượng flirting
+            if(flirtingUsers.length == 0) {
+                alert("There are no flirting users");
+                return;
+            }
+
+            // nếu số lượng > 0 -> chọn ngẫu nhiên 1 flirting user để ghép đôi 
+            let index = Math.floor(Math.random() * flirtingUsers.length); // [0; 1)
+            let randomUser = flirtingUsers[index];
+            let currentUser = firebase.auth().currentUser;
+
+            // -> tạo 1 conversation
+            let conversation = await createConversation([randomUser.id, currentUser.uid]);
+
+            // -> updateCurrentUser & update user flirting được ghép đôi :D
+            updateCurrentUser({ status: 'chatting', currentConversationId: conversation.id });
+            updateUser(randomUser.id, {status: 'chatting', currentConversationId: conversation.id });
         }
 
         this.$stopFlirtingBtn.onclick = () => {

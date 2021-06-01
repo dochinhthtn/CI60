@@ -29,14 +29,17 @@ export default class ChatScreen extends HTMLElement {
         this.appendChild($template.content.cloneNode(true));
 
         this.$userActions = this.querySelector('user-actions');
+        this.$messageList = this.querySelector('message-list');
     }
 
     connectedCallback() {
         listenCurrentUser((data) => {
+            console.log(data);
             this.$userActions.setAttribute('status', data.status);
         });
 
-        
+        this.$messageList.setAttribute('messages', JSON.stringify(fakeMessages));
+        // JSON: string, có quy tắc -- phân tích --> 1 mảng || 1 object    
     }
 }
 
