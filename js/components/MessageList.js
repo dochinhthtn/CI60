@@ -22,7 +22,7 @@ export default class MessageList extends HTMLElement {
 
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (attrName == 'messages') {
-
+            
         }
     }
 }
