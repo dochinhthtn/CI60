@@ -67,11 +67,11 @@ export default class UserActions extends HTMLElement {
 
         this.$stopFlirtingBtn.onclick = () => {
             updateCurrentUser({ status: 'free' });
-            updateUser(this.partnerId, { status: 'free', currentConversationId: '' });
         }
 
         this.$endChatBtn.onclick = () => {
             updateCurrentUser({ status: 'free', currentConversationId: '' });
+            updateUser(this.partnerId, { status: 'free', currentConversationId: '' });
         }
     }
 
