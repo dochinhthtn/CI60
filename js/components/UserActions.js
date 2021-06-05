@@ -24,6 +24,8 @@ export default class UserActions extends HTMLElement {
         super();
         this.appendChild($template.content.cloneNode(true));
 
+        this.partnerId = '';
+
         this.$statusFree = this.querySelector('.status-free');
         this.$statusFlirting = this.querySelector('.status-flirting');
         this.$statusChatting = this.querySelector('.status-chatting');
@@ -43,7 +45,7 @@ export default class UserActions extends HTMLElement {
             // lấy ra những người dùng đang flirting
             let flirtingUsers = await getFlirtingUsers();
             // kiểm tra số lượng flirting
-            if(flirtingUsers.length == 0) {
+            if (flirtingUsers.length == 0) {
                 alert("There are no flirting users");
                 return;
             }
@@ -53,16 +55,19 @@ export default class UserActions extends HTMLElement {
             let randomUser = flirtingUsers[index];
             let currentUser = firebase.auth().currentUser;
 
+            this.partnerId = randomUser.id;
+
             // -> tạo 1 conversation
             let conversation = await createConversation([randomUser.id, currentUser.uid]);
 
             // -> updateCurrentUser & update user flirting được ghép đôi :D
             updateCurrentUser({ status: 'chatting', currentConversationId: conversation.id });
-            updateUser(randomUser.id, {status: 'chatting', currentConversationId: conversation.id });
+            updateUser(randomUser.id, { status: 'chatting', currentConversationId: conversation.id });
         }
 
         this.$stopFlirtingBtn.onclick = () => {
             updateCurrentUser({ status: 'free' });
+            updateUser(this.partnerId, { status: 'free', currentConversationId: '' });
         }
 
         this.$endChatBtn.onclick = () => {

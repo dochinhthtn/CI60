@@ -3,8 +3,13 @@
 @import url("./app-stat.css");
 @import url("./user-actions.css");
 @import url("./message-container.css");
+@import url("./send-message-form.css");
+@import url("./message-list.css");
+
 @import url("./chat-screen.css");
 
 * {
     font-family: 'Open Sans', sans-serif;
+    padding: 0;
+    margin: 0;
 }
